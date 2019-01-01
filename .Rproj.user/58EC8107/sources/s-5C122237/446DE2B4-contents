@@ -1,0 +1,65 @@
+---
+title: "Package preparation steps"
+author: "Eliford"
+date: "December 22, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Chapter 4 package metadata 
+
+```{r}
+##Add dependent packages
+devtools::use_package(package = "rlang")
+devtools::use_package(package = "reshape2")
+devtools::use_package(package = "tidyverse")
+devtools::use_package(package = "nlme")
+devtools::use_package(package = "grid")
+devtools::use_package(package = "glue")
+devtools::use_package(package = "tableone")
+devtools::use_package(package = "GGally")
+devtools::use_package(package = "PKPDmisc")
+```
+
+# Chapter 5: Object documentation
+
+```{r}
+##Document functions
+setwd("~/GitHub")
+devtools::document(pkg = "BEQR")
+```
+
+# Chapter 6: vignette
+```{r}
+devtools::use_vignette("BEQR_Overview")
+
+#Warning message:
+#'devtools::use_vignette' is deprecated.
+#Use 'usethis::use_vignette()' instead.
+#See help("Deprecated") and help("devtools-deprecated"). 
+```
+
+# Chapter 7: Testing
+```{r}
+devtools::load_all()
+
+a<-list(1:10, letters)
+str(a)
+
+testthat::expect_output(str(a), "List of 2")
+testthat::expect_warning(log(-1))
+testthat::expect_error(log(-1))
+
+model = lm(mpg~wt, data = mtcars)
+
+inherits(model, what = c("lm", "glm"), which = TRUE)
+
+class(model)
+
+
+testthat::expect_is(model, "lm")
+```
+
