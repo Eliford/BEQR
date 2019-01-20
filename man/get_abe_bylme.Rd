@@ -5,24 +5,24 @@
 \title{Get average bioequivalence results.}
 \usage{
 get_abe_bylme(data, treatments, sequences, periods, idvar, abe_param,
-  contr_variable)
+  reference)
 }
 \arguments{
 \item{data}{a dataset with pharmacokinetic or pharmacodynamic parameters
 whose ABE are to be calculated}
 
-\item{treatments}{unquoted variable name for treatment groups}
+\item{treatments}{unquoted variable name for treatment groups (Should be a factor variable)}
 
-\item{sequences}{unquoted variable name for treatment sequences}
+\item{sequences}{unquoted variable name for treatment sequences(Should be a factor variable)}
 
-\item{periods}{unquoted variable name for treatment periods}
+\item{periods}{unquoted variable name for treatment periods (Should be a factor variable)}
 
 \item{idvar}{unquoted variable name for subject identification}
 
 \item{abe_param}{unquoted variable name for a PK/PD parameter whose
 bioequivalence is sought}
 
-\item{contr_variable}{a value of the treatments variable to use as reference
+\item{reference}{a value of the treatments variable to use as reference
 treatment}
 }
 \value{

@@ -43,6 +43,7 @@ custom_combo <- function(data, mapping, ...) {
 #' @param data dataset containg continous and continous variables for which to
 #'   explore relationships
 #' @param mapping aes mappings as in ggplot aes
+#' @param ... other arguments passed to geom smooth
 #' @return a ggplot2 object to plot
 lm_with_cor <- function(data, mapping, ..., method = "pearson") {
   x <- data[[deparse(mapping$x)]]

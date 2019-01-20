@@ -39,7 +39,7 @@ plot_dv_ipred_pred<-function(df, id="ID", study = "STUDY", dose="DOSE", dv = lis
     scale_color_manual(name=NULL, values = c("OBS" = "black", "PRED" = "brown", "IPRED" = "red"))+
     scale_y_continuous(trans = "log", labels = function(x){round(x,2)})+
     labs(y=ylab, x=xlab, title = glue::glue('ID = {sid}, study = {studyid}, dose = {dosetype}'))+
-    my_theme()+ theme(legend.position = c(0.7,0.8))
+    my_theme()+ ggplot2::theme(legend.position = c(0.7,0.8))
   return(p)
 }
 

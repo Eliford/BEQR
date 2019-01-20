@@ -29,7 +29,7 @@ This vignette explains the BEQR functions using some examples.
 *Load required packages.*
 
 ```{r, results='hide'}
-libraries<-c("tidyverse", "readxl", "PKPDmisc", "PKNCA","tableone", "lubridate", "BEQR")
+libraries<-c("PKNCA", "BEQR")
 loadlibraries<-lapply(libraries, require, character.only=TRUE)
 rm(loadlibraries, libraries)
 ```
@@ -44,8 +44,9 @@ devtools::load_all()
 **Load dataset**   
 
 ```{r}
-beqrdata<-read.csv("../data/beqrpkdataset.csv", stringsAsFactors = FALSE)
-knitr::kable(head(beqrdata, 5))
+data("beqrpkdataset")
+dim(beqrpkdataset)
+knitr::kable(head(beqrpkdataset, 5))
 ```
 
 **Use the plot functions to explore the dataset**  
@@ -53,7 +54,7 @@ knitr::kable(head(beqrdata, 5))
 *Mean and 95%CI plots.*  
     
 ```{r}
-base_mean_plot(df=beqrdata, treatment = "TREATMENT", time = "TAD", dv = "CONC")+
+base_mean_plot(df=beqrpkdataset, treatment = "TREATMENT", time = "TAD", dv = "CONC")+
   labs(x = "TIME", y="Conc(ng/mL)")+
   scale_color_manual(name=NULL, values = c("REFERENCE" = "red", "TEST" = "blue"))+
   labs(x="Time (hours)", y = "Concentrations (ng/mL)")+
@@ -67,7 +68,7 @@ base_mean_plot(df=beqrdata, treatment = "TREATMENT", time = "TAD", dv = "CONC")+
 *  *Faceted by analyte type and period.*  
 
 ```{r}
-plot_insulin(df=beqrdata%>%filter(ID==1), id = "ID", visit = "PERIOD", idv = "TAD", form = "TREATMENT", dv=list(CONC="CONC"), ylab = "Concentration (ng/mL)", xlab = "Time(hrs)")+
+plot_insulin(df=beqrpkdataset%>%filter(ID==1), id = "ID", visit = "PERIOD", idv = "TAD", form = "TREATMENT", dv=list(CONC="CONC"), ylab = "Concentration (ng/mL)", xlab = "Time(hrs)")+
   facet_grid(PERIOD~TYPE, labeller = labeller(PERIOD=c("1"="Period 1", "2"= "Period 2")))
 ```
        
@@ -75,16 +76,16 @@ plot_insulin(df=beqrdata%>%filter(ID==1), id = "ID", visit = "PERIOD", idv = "TA
 *  *Isolated analyte and period.*  
 
 ```{r}
-plot_insulin(df=beqrdata%>%filter(ID==1, TYPE=="INSULIN", PERIOD==1), id = "ID", visit = "PERIOD", idv = "TAD", form = "TREATMENT", dv=list(CONC="CONC"), ylab = "Concentration (ng/mL)", xlab = "Time(hrs)")
+plot_insulin(df=beqrpkdataset%>%filter(ID==1, TYPE=="INSULIN", PERIOD==1), id = "ID", visit = "PERIOD", idv = "TAD", form = "TREATMENT", dv=list(CONC="CONC"), ylab = "Concentration (ng/mL)", xlab = "Time(hrs)")
 ```
     
 
 **Use the `adjust_insulin()` function to adjust for endogenous insulin production.**
 
 ```{r}
-beqrdata_adj<-beqrdata%>%group_by(ID,PERIOD)%>%do(adjust_insulin(., idv = "TAD", dosing_time = 0.001, dv="CONC", dv_type = "TYPE", dv_type_values = list(INSULIN = "INSULIN", CPEPTIDE = "CPEPTIDE")))%>%ungroup()
+beqrpkdataset_adj<-beqrpkdataset%>%group_by(ID,PERIOD)%>%do(adjust_insulin(., idv = "TAD", dosing_time = 0.001, dv="CONC", dv_type = "TYPE", dv_type_values = list(INSULIN = "INSULIN", CPEPTIDE = "CPEPTIDE")))%>%ungroup()
 
-knitr::kable(head(beqrdata_adj,10))
+knitr::kable(head(beqrpkdataset_adj,10))
 ```
 
 
@@ -93,7 +94,7 @@ knitr::kable(head(beqrdata_adj,10))
 *  *Use the `base_mean_plot` function.*
 
 ```{r}
-base_mean_plot(df = beqrdata_adj%>%filter(INCLUDED=="YES"), treatment = "TREATMENT", time = "TAD", dv = "INSULIN_ADJ")+
+base_mean_plot(df = beqrpkdataset_adj%>%filter(INCLUDED=="YES"), treatment = "TREATMENT", time = "TAD", dv = "INSULIN_ADJ")+
   labs(x = "TIME", y="Adjusted insulin conc(ng/mL)")+
   scale_color_manual(name=NULL, values = c("REFERENCE" = "red", "TEST" = "blue"))+
   facet_grid(.~PERIOD, labeller = labeller(PERIOD=c("1"="Period 1", "2"= "Period 2")))+
@@ -104,7 +105,7 @@ base_mean_plot(df = beqrdata_adj%>%filter(INCLUDED=="YES"), treatment = "TREATME
 * *Use `BEQR_theme()` function.*
 
 ```{r}
-ggplot(data = beqrdata_adj%>%filter(INCLUDED=="YES"), aes(x=TAD, y=INSULIN_ADJ, group=factor(ID)))+
+ggplot(data = beqrpkdataset_adj%>%filter(INCLUDED=="YES"), aes(x=TAD, y=INSULIN_ADJ, group=factor(ID)))+
   geom_point(aes(color=TREATMENT),size=3, show.legend = FALSE)+
   geom_line(aes(color=TREATMENT),size=1, show.legend = FALSE)+
   scale_color_manual(name=NULL, values = c("REFERENCE" = "red", "TEST" = "blue"))+
@@ -118,7 +119,7 @@ ggplot(data = beqrdata_adj%>%filter(INCLUDED=="YES"), aes(x=TAD, y=INSULIN_ADJ, 
 **Use the `summarize_statz()` function to get descriptive statistics of insulin concentration.**
 
 ```{r}
-descInsulin<-beqrdata_adj%>%filter(TAD>0)%>%group_by(TREATMENT,PERIOD,TAD)%>%do(summarize_statz(., group = "TREATMENT", variables = c("INSULIN_ADJ")))%>%ungroup()
+descInsulin<-beqrpkdataset_adj%>%filter(TAD>0)%>%group_by(TREATMENT,PERIOD,TAD)%>%do(summarize_statz(., group = "TREATMENT", variables = c("INSULIN_ADJ")))%>%ungroup()
 knitr::kable(head(descInsulin, 5), digits = 1)
 ```
 
@@ -128,15 +129,15 @@ knitr::kable(head(descInsulin, 5), digits = 1)
 **Load the PD dataset.**  
 
 ```{r}
-pddata<-read.csv("../data/beqrpddataset.csv", stringsAsFactors = FALSE)
-pddata<-pddata%>%filter(!is.na(TIME))
-knitr::kable(head(pddata, 5))
+data("beqrpddataset")
+beqrpddataset<-beqrpddataset%>%filter(!is.na(TIME))
+knitr::kable(head(beqrpddataset, 5))
 ```
 
 
 ```{r}
 # Observation time are in 24hours format. Should be writen in a format that can be manipulated by R functions
-pddata<-pddata%>%mutate(CLOCK = ifelse(nchar(TIME)==1, paste0("000",TIME),
+beqrpddataset<-beqrpddataset%>%mutate(CLOCK = ifelse(nchar(TIME)==1, paste0("000",TIME),
                                         ifelse(nchar(TIME)==2, paste0("00", TIME),
                                         ifelse(nchar(TIME)==3, paste0("0", TIME), TIME))))
 ```
@@ -144,48 +145,48 @@ pddata<-pddata%>%mutate(CLOCK = ifelse(nchar(TIME)==1, paste0("000",TIME),
 **Use the `str_punctuate()` function to add pantuation to clocktime.** 
 
 ```{r}
-pddata<-pddata%>%mutate(CLOCK = str_panctuate(CLOCK, 2, ":"))
+beqrpddataset<-beqrpddataset%>%mutate(CLOCK = str_panctuate(CLOCK, 2, ":"))
 ```
 
 
 ```{r}
 # Any date can be used to help to calculate time after dose
-pddata<-pddata%>%mutate(DATE = dmy("15-06-2000"))
+beqrpddataset<-beqrpddataset%>%mutate(DATE = lubridate::dmy("15-06-2000"))
 ```
 
 **Use the function `edit_Date()` to change date to next-date after midnight.**  
 
 ```{r}
-pddata<-pddata%>%group_by(ID,PERIOD)%>%filter(!is.na(TIME))%>%
+beqrpddataset<-beqrpddataset%>%group_by(ID,PERIOD)%>%filter(!is.na(TIME))%>%
   do(edit_Date(., condition_col = "TIME", date_col = "DATE"))%>%ungroup()
 
 # A date-time is required to calculate time after dose
-pddata<-pddata%>%mutate(DATETIME=paste(DATE, CLOCK, sep=" "))%>%
-  mutate(CLOCKTIME=ymd_hm(DATETIME))
+beqrpddataset<-beqrpddataset%>%mutate(DATETIME=paste(DATE, CLOCK, sep=" "))%>%
+  mutate(CLOCKTIME=lubridate::ymd_hm(DATETIME))
 
 # Get time after dose
-pddata<-pddata%>%arrange(ID,PERIOD,CLOCKTIME)%>%group_by(ID,PERIOD)%>%
+beqrpddataset<-beqrpddataset%>%arrange(ID,PERIOD,CLOCKTIME)%>%group_by(ID,PERIOD)%>%
   mutate(TAD=as.numeric(round(difftime(CLOCKTIME, first(CLOCKTIME), units = "min"),6)),
          GCLAMP=first(GLUCOSE)-9)%>%ungroup() # A clamp value is need for plotting glucose profile
 
 ##Select relevant columns
-pddata<-pddata%>%select(ID,PERIOD,TIME,TAD,SEQUENCE,TREATMENT,GIR,GLUCOSE,GCLAMP)
+beqrpddataset<-beqrpddataset%>%select(ID,PERIOD,TIME,TAD,SEQUENCE,TREATMENT,GIR,GLUCOSE,GCLAMP)
 ```
 
 **Use use the `custom_round()` function to round Time column to the nearest multiple of 5.**  
 
 ```{r}
 #Round up time to multiples of 5
-pddata<-pddata%>%mutate(RTAD=ifelse(TAD<12*60, custom_round(TAD, 5, 2.5), custom_round(TAD, 10, 5)))
+beqrpddataset<-beqrpddataset%>%mutate(RTAD=ifelse(TAD<12*60, custom_round(TAD, 5, 2.5), custom_round(TAD, 10, 5)))
 
 #Change time to hours
-pddata<-pddata%>%mutate(RTAD=round(RTAD/60,3))
+beqrpddataset<-beqrpddataset%>%mutate(RTAD=round(RTAD/60,3))
 
 ##Make TIME BINS for plotting mean profiles
-pddata<-pddata%>%mutate(TIMEBIN=set_bins(RTAD, breaks = c(3/60, seq(4.9/60, 24, 9.9/60))))
+beqrpddataset<-beqrpddataset%>%mutate(TIMEBIN=PKPDmisc::set_bins(RTAD, breaks = c(3/60, seq(4.9/60, 24, 9.9/60))))
 
 #Get mean time within the time bin
-pddata<-pddata%>%group_by(ID, PERIOD, TIMEBIN)%>%mutate(MEANTAD = mean(RTAD, na.rm = TRUE))%>%ungroup()
+beqrpddataset<-beqrpddataset%>%group_by(ID, PERIOD, TIMEBIN)%>%mutate(MEANTAD = mean(RTAD, na.rm = TRUE))%>%ungroup()
 ```
 
 **Explore the infusion profiles.**  
@@ -193,7 +194,7 @@ pddata<-pddata%>%group_by(ID, PERIOD, TIMEBIN)%>%mutate(MEANTAD = mean(RTAD, na.
 *  * Individual profiles.*  
 
 ```{r}
-ggplot(data=pddata, aes(RTAD, GIR, group=ID))+
+ggplot(data=beqrpddataset, aes(RTAD, GIR, group=ID))+
   geom_line(aes(colour=TREATMENT))+
   geom_point(aes(colour=TREATMENT))+
   facet_grid(PERIOD~TREATMENT, labeller = labeller(PERIOD=c("1"="Period 1", "2"= "Period 2")))+
@@ -207,7 +208,7 @@ ggplot(data=pddata, aes(RTAD, GIR, group=ID))+
 
 ```{r}
 ##Plot mean profiles
-ggplot(data = pddata, aes(x=RTAD, y=GIR, color=TREATMENT))+
+ggplot(data = beqrpddataset, aes(x=RTAD, y=GIR, color=TREATMENT))+
   stat_summary(fun.y = function(x)(mean(x, na.rm = TRUE)), geom = "point", size=3)+
   stat_summary(fun.y = function(x)(mean(x, na.rm = TRUE)), geom = "line", size=1)+
   #stat_summary(fun.data = function(x){data.frame(ymin=mean(x)-1.96*se(x), ymax=mean(x)+1.96*se(x))}, geom = "errorbar", width=1)+
@@ -220,14 +221,14 @@ ggplot(data = pddata, aes(x=RTAD, y=GIR, color=TREATMENT))+
 **Use the `get_smooth_dv()` function to get predicted infusion rate profiles.**  
 
 ```{r}
-pddata<-pddata%>%group_by(ID,PERIOD)%>%do(get_smooth_dv(., idv = "TAD", dv= "GIR", span = 0.2))
-knitr::kable(head(pddata, 10))
+beqrpddataset<-beqrpddataset%>%group_by(ID,PERIOD)%>%do(get_smooth_dv(., idv = "TAD", dv= "GIR", span = 0.2))
+knitr::kable(head(beqrpddataset, 10))
 ```
 
 The figure below shows overlay of observed and predicted glucose infusion rate for one subject.   
 
 ```{r}
-ggplot(pddata%>%filter(ID==1), aes(x=TAD, y=GIR))+
+ggplot(beqrpddataset%>%filter(ID==1), aes(x=TAD, y=GIR))+
   geom_line()+
   geom_line(aes(y=smooth_dv), color="red")+
   facet_grid(.~TREATMENT)+
@@ -237,7 +238,7 @@ ggplot(pddata%>%filter(ID==1), aes(x=TAD, y=GIR))+
 **Plot predicted mean infusion rate profile using the `base_mean_plot()` function**
 
 ```{r}
-base_mean_plot(df=pddata, treatment = "TREATMENT", time = "RTAD", dv = "smooth_dv")+
+base_mean_plot(df=beqrpddataset, treatment = "TREATMENT", time = "RTAD", dv = "smooth_dv")+
   scale_color_manual(name=NULL, values = c("REFERENCE" = "red", "TEST" = "blue"))+
   labs(x="Time (hours)", y = "Glucose infusion rate (mL/hr)")+
   facet_grid(.~PERIOD, labeller = labeller(PERIOD=c("1"="Period 1", "2"= "Period 2")))+
@@ -247,13 +248,13 @@ base_mean_plot(df=pddata, treatment = "TREATMENT", time = "RTAD", dv = "smooth_d
 #Load the demographics dataset  
 
 ```{r}
-demographics<-read.csv("../data/beqrdemographic.csv", stringsAsFactors = FALSE)
+data("beqrdemographic")
 ```
 
 **Use the `table_characteristics()` function to obtain a summary of demographic characteristics.** 
 
 ```{r, results='hide'}
-tab_char<-table_characteristics(vars = c("GENDER", "AGE", "WEIGHT"), strata = c("SEQUENCE", "TREATMENT"), includeNA = TRUE, data = demographics)
+tab_char<-table_characteristics(vars = c("GENDER", "AGE", "WEIGHT"), strata = c("SEQUENCE", "TREATMENT"), includeNA = TRUE, data = beqrdemographic)
 ```  
 
 ```{r}
@@ -265,7 +266,7 @@ knitr::kable(tab_char)
 
 ```{r}
 #Prepare the dataset for NCA
-insulinpk<-beqrdata%>%
+insulinpk<-beqrpkdataset%>%
   filter(TYPE=="INSULIN", !TIME%in%c("-30min","-20min","-10min"))%>%
   select(ID,TREATMENT,PERIOD,SEQUENCE,TIME=TAD,CONC)
 ```
@@ -358,7 +359,7 @@ knitr::kable(tmaxthalf)
 
 ```{r}
 # Negative values of the smooth DV have to be replaced by 0
-insulinpd<-pddata%>%mutate(SMOOTHGIR=ifelse(smooth_dv<0,0,smooth_dv), TIME=TAD/60)%>%select(ID, PERIOD, SEQUENCE,TREATMENT, TIME, SMOOTHGIR,GIR)
+insulinpd<-beqrpddataset%>%mutate(SMOOTHGIR=ifelse(smooth_dv<0,0,smooth_dv), TIME=TAD/60)%>%select(ID, PERIOD, SEQUENCE,TREATMENT, TIME, SMOOTHGIR,GIR)
 ```
 
 

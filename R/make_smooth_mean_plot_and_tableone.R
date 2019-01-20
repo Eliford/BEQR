@@ -1,3 +1,15 @@
+#' Calculate standard errors of a vector
+#'
+#' @param x a vector whose standard error is required
+#' @return standard error for the vector x
+se<-function(x){
+  n=length(x)
+  sd=sd(x)
+  se=sd/sqrt(n)
+  return(se)
+}
+
+
 #' Plot mean concentration vs time profile.
 #'
 #' This function is a wrapper for ggplot and stat_summary to plot mean+-95%CI
@@ -43,7 +55,7 @@ get_smooth_dv<-function(df, idv, dv,...)
   predict_smooth<-function(df, idv, dv, ...)
   {
     smoothing_model<-stats::loess(eval(parse(text = dv))~eval(parse(text = idv)), data = df, ...)
-    smooth_dv<-predict(smoothing_model, newdata = df)
+    smooth_dv<-stats::predict(smoothing_model, newdata = df)
     return(smooth_dv)
   }
 

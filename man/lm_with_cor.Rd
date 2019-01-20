@@ -11,6 +11,8 @@ lm_with_cor(data, mapping, ..., method = "pearson")
 explore relationships}
 
 \item{mapping}{aes mappings as in ggplot aes}
+
+\item{...}{other arguments passed to geom smooth}
 }
 \value{
 a ggplot2 object to plot

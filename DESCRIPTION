@@ -1,6 +1,6 @@
 Package: BEQR
 Type: Package
-Title: BIOEQUIVALENCE ANALYSIS AND REPORTING FOR INSULIN BIOEQUIVALENCE TRIALS
+Title: ANALYSIS AND REPORTING OF INSULIN BIOEQUIVALENCE TRIALS
 Version: 0.0.0.9000
 Author: Eliford N. Kitabi
 Maintainer: Eliford N. Kitabi <engaimisi@gmail.com>
@@ -8,7 +8,7 @@ Description: The package is for analysing insulin bioequivalence trials.
     It has functions to perform the following tasks: 
     1. Prepare a dataset for bioequivalence analysis, 
     2. Make exploratory plots, 
-    3. Mompute non-compartmental PK and PD parameters, and
+    3. Compute non-compartmental PK and PD parameters, and
     4. Perform average bioequivalence comparison between reference and test treatments.
 License: GPL-3
 Encoding: UTF-8

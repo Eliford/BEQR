@@ -20,7 +20,7 @@ str_panctuate <- function(string, panc_pos, panctuation) {
 edit_Date<-function(df, condition_col="TIME", date_col="DATE"){
   for(i in 2:nrow(df)){
     if(df[[condition_col]][i] < df[[condition_col]][i-1]){
-      df[[date_col]][i]<-df[[date_col]][i-1]+days(1)
+      df[[date_col]][i]<-df[[date_col]][i-1]+lubridate::days(1)
     } else {
       df[[date_col]][i]<-df[[date_col]][i-1]
     }
@@ -41,17 +41,6 @@ edit_Date<-function(df, condition_col="TIME", date_col="DATE"){
 custom_round<-function(x, base, cutoff){
   x <- ifelse(x%%base < cutoff, floor(x/base)*base, ceiling(x/base)*base)
   return(x)
-}
-
-#' Calculate standard errors of a vector
-#'
-#' @param x a vector whose standard error is required
-#' @return standard error for the vector x
-se<-function(x){
-  n=length(x)
-  sd=sd(x)
-  se=sd/sqrt(n)
-  return(se)
 }
 
 #' Specify plot theme
