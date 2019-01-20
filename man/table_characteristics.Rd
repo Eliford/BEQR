@@ -26,5 +26,5 @@ This function is a wrapper for tableone::CreateTableOne and creates a table
 of subject characteristics by treatment groups and/or sequence groups
 }
 \examples{
-tab_char<-make_tableone(vars = c("GENDER", "AGE", "WEIGHT"), strata = c("SEQUENCE", "PERIOD"), includeNA = TRUE, data = demographics)
+tab_char<-table_characteristics(vars = c("GENDER", "AGE", "WEIGHT"), strata = c("SEQUENCE", "PERIOD"), includeNA = TRUE, data = demographics)
 }
