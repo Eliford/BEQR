@@ -1,8 +1,6 @@
+.Rproj.user
+.Rhistory
 inst/doc
 data-raw/
 notebook/
-.Rproj
-.Rhistory
 .git
-.Rproj.user/
-.Rproj.user
