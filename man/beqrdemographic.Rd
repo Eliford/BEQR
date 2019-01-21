@@ -10,7 +10,7 @@
   \item{GENDER}{Biological sex, M = Male, F=Female}
   \item{AGE}{Age in years}
   \item{WEIGHT}{Weight in Kg}
-  \iter{PERIOD}{Treatment periods}
+  \item{PERIOD}{Treatment periods}
   \item{SEQUENCE}{Assigned treatment sequences}
   \item{TREATMENT}{Treatments taken in each treatment period}
 }}
