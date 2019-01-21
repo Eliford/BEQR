@@ -38,5 +38,4 @@ observed insulin for c-peptide (endogenous insulin) production
 # Test the function using the \\emph{wosmpkdata} dataframe.
 pt1<-wosmpkdata\%>\%filter(ID==1, PERIOD==1)
 pt1<-adjust_insulin(pt1)
-
 }

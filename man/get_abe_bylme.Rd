@@ -38,5 +38,4 @@ treatment effect and the corresponding 90% confidence interval
 fit<-get_abe_bylme(data=results_wide, treatments = TREATMENT, sequences = SEQUENCE, periods = PERIOD, idvar = ID, abe_param = cmax0_24, contr_variable = "Mixtard 30/70")
 abe_res<-fit$ABEresult
 modelfit<-fit$lmefit
-
 }
