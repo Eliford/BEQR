@@ -7,7 +7,7 @@
 \format{a data-frame with 21160 rows and 8 variables
 \describe{
   \item{ID}{Unique subject identifier (1 -- 50)}
-  \item{PERIOD} {Treatment periods}
+  \item{PERIOD}{Treatment periods}
   \item{TIME}{Time of the day in 24 hours format}
   \item{GIR}{Glucose infusion rate, milliter/hour}
   \item{GLUCOSE}{Plasma glucose concentration, milgram/deciliter}
