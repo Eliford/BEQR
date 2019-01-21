@@ -7,6 +7,7 @@
 #'   explore relationships
 #' @param mapping aes mappings as in ggplot aes
 #' @return a ggplot2 object to plot
+#' @export
 custom_combo <- function(data, mapping, ...) {
   x <- data[[deparse(mapping$x)]]
   y <- data[[deparse(mapping$y)]]
@@ -45,6 +46,7 @@ custom_combo <- function(data, mapping, ...) {
 #' @param mapping aes mappings as in ggplot aes
 #' @param ... other arguments passed to geom smooth
 #' @return a ggplot2 object to plot
+#' @export
 lm_with_cor <- function(data, mapping, ..., method = "pearson") {
   x <- data[[deparse(mapping$x)]]
   y <- data[[deparse(mapping$y)]]
@@ -72,6 +74,7 @@ lm_with_cor <- function(data, mapping, ..., method = "pearson") {
 #' @param ncolx number of variables specified as x variables when creating a plot using ggally
 #' @param ncoly number of variables specified as y variables when creating a plot using ggally
 #' @return a list of plots from the GGally object
+#' @export
 get_your_ggally_plots<-function(plots,ncolx,ncoly){
   plot_listy<-list()
   for(i in 1:ncoly){

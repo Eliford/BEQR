@@ -5,6 +5,7 @@
 #' @param variables a character vector of variables to be summarized.
 #' @param stats descriptive summary statistics to compute. (NOT YET IMPLEMENTED. USED DEFAULTS ARE: "mean", "sd", "CV", "median", "min", "max", "quantiles (0.25 and 0.75)", "geometric.mean" and "Goemetric.cv")
 #' @return a dataframe of summary statistics
+#' @export
 summarize_statz<-function(df, group, variables, stats=list("mean", "sd", "CV", "median", "min", "max", "geometric.mean")){
   ##Define basic function
   get_statz<-function(variables, df, group, stats=list("mean", "sd", "CV", "median", "min", "max", "geometric.mean")){
@@ -45,6 +46,7 @@ summarize_statz<-function(df, group, variables, stats=list("mean", "sd", "CV", "
 #' @examples
 #' results_wide_pairs<-results_wide%>%group_by(ID)%>%mutate(N=n())%>%ungroup()%>%filter(N==2)%>%select(-N)
 #' test<-table_median_tmax_thalf(results_wide_pairs, group = "TREATMENT")
+#' @export
 table_median_tmax_thalf<-function(df, group, tmax="tmax0_24", thalf="half.life0_24")
 {
   # Get a quosure for a grouping variable
@@ -116,7 +118,7 @@ table_median_tmax_thalf<-function(df, group, tmax="tmax0_24", thalf="half.life0_
 #' @param group a column name (string) for treatment groups
 #' @param tmax a column name (string) for tmax variable
 #' @return a dataframe of tmax and t-half or an error message
-#'
+#' @export
 table_median_tmax<-function(df, group, tmax="tmax0_24")
 {
   # Get a quosure for a grouping variable

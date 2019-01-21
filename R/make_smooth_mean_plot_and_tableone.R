@@ -25,6 +25,7 @@ se<-function(x){
 #'  labs(x="Time (hours)", y = "Concentrations (ng/mL)")+
 #'  scale_color_manual(name=NULL, values = c("Mixtard 30/70" = "red", "Consegna 30/70" = "blue"))+
 #'  facet_grid(PERIOD~TYPE, labeller = labeller(PERIOD=c("1"="Period 1", "2"= "Period 2")))
+#' @export
 base_mean_plot<-function(df, treatment = "TREATMENT", time = "TAD", dv = "CONC")
 {
   ggplot2::ggplot(data = df, aes(x=eval(parse(text = time)), y=eval(parse(text = dv)), color=eval(parse(text = treatment))))+
@@ -50,6 +51,7 @@ base_mean_plot<-function(df, treatment = "TREATMENT", time = "TAD", dv = "CONC")
 #' ggplot(aes(x=TAD, y= GIR), data = id1pd)+
 #' geom_point()+
 #' geom_line(aes(y=smooth_dv))
+#' @export
 get_smooth_dv<-function(df, idv, dv,...)
 {
   predict_smooth<-function(df, idv, dv, ...)
@@ -102,6 +104,7 @@ get_smooth_dv<-function(df, idv, dv,...)
 #'   comparison statistics
 #' @examples
 #' tab_char<-table_characteristics(vars = c("GENDER", "AGE", "WEIGHT"), strata = c("SEQUENCE", "PERIOD"), includeNA = TRUE, data = demographics)
+#' @export
 
 table_characteristics<-function(data, vars, factorVars, strata, ...)
 {

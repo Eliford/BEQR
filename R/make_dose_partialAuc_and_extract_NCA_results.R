@@ -12,6 +12,7 @@
 #' @return a dataframe with dosing information
 #' @examples
 #' dose<-make_nca_dose_dataset(insulinpk, treatment_var = TREATMENT, id_var = ID, time_var = TIME, dose = 7287700, dose_time = 0, tau = 12)
+#' @export
 
 make_nca_dose_dataset<-function(df, treatment_var, id_var, time_var, dose, dose_time, tau)
 {
@@ -47,6 +48,7 @@ make_nca_dose_dataset<-function(df, treatment_var, id_var, time_var, dose, dose_
 #'                             partial_aucs = list(start=c(0,0,0), end=c(4, 6, 12)),
 #'                             protocol_tlast = 24,
 #'                             compute_aucinf = FALSE)
+#' @export
 make_nca_par_dataset<-function(nca_params, partial_aucs=list(start, end), protocol_tlast, compute_aucinf=TRUE)
 {
   create_df<-function(variables)
@@ -85,6 +87,7 @@ make_nca_par_dataset<-function(nca_params, partial_aucs=list(start, end), protoc
 #' @param design_var a character vector of column names for BEQ study design
 #'   variables i.e ID, TREATMENT, PERIOD, and SEQUENCE
 #' @return a dataframe with NCA parameter values in a wide format
+#' @export
 extract_nca_results<-function(pknca_results, select_nca_param, design_var=c("ID","TREATMENT","PERIOD","SEQUENCE"))
 {
   Vardesign_var<-rlang::enquo(design_var)

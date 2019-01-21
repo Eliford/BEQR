@@ -6,6 +6,7 @@
 #' @param panc_pos a position to insert panctuation
 #' @param panctuation a panctuation to insert
 #' @return a panctuated string
+#' @export
 str_panctuate <- function(string, panc_pos, panctuation) {
   paste0(stringr::str_trunc(string, panc_pos, "right", ellipsis = ""), panctuation, stringr::str_trunc(string, nchar(string)-panc_pos, "left", ellipsis = ""))
 }
@@ -17,6 +18,7 @@ str_panctuate <- function(string, panc_pos, panctuation) {
 #'   should be edited
 #' @param date_col a date column to edit
 #' @return input dataframe df with date_col edited
+#' @export
 edit_Date<-function(df, condition_col="TIME", date_col="DATE"){
   for(i in 2:nrow(df)){
     if(df[[condition_col]][i] < df[[condition_col]][i-1]){
@@ -38,6 +40,7 @@ edit_Date<-function(df, condition_col="TIME", date_col="DATE"){
 #' @examples
 #' custom_round(18, 5, 2.5)
 #' custom_round(20, 5, 2.5)
+#' @export
 custom_round<-function(x, base, cutoff){
   x <- ifelse(x%%base < cutoff, floor(x/base)*base, ceiling(x/base)*base)
   return(x)
@@ -45,6 +48,7 @@ custom_round<-function(x, base, cutoff){
 
 #' Specify plot theme
 #' @return ggplot2 theme object
+#' @export
 BEQR_theme<-function(){
   ggplot2::theme(
     panel.background = ggplot2::element_rect(fill = "white", colour = "black", linetype = "solid")

@@ -9,6 +9,7 @@
 #' @param xlab a label for x-axis
 #' @param ylab a label for y-axis
 #' @return a ggplot object
+#' @export
 plot_dv_ipred_pred<-function(df, id="ID", study = "STUDY", dose="DOSE", dv = list("OBS"="DV", "PRED"="PRED", "IPRED" = "IPRED"), idv="TIME", ylab = "Concentration (ng/mL)", xlab = "Time (hrs)"){
   my_theme<-function(){
     theme(
@@ -48,6 +49,7 @@ plot_dv_ipred_pred<-function(df, id="ID", study = "STUDY", dose="DOSE", dv = lis
 #' @param .plotfun  a function to plot individual plots
 #' @inheritParams plot_dv_ipred_pred
 #' @return  a list of individual plots
+#' @export
 get_individual_plots<-function(df, id = id, .plotfun = plot_dv_ipred_pred, study = study, dose=dose, dv = dv, idv=idv, ylab = ylab, xlab = xlab){
   ids<-unique(df[id]) %>% unlist() %>% unname()
   #browser()

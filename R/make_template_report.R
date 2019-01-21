@@ -6,6 +6,7 @@
 #' @param file_name a name to be given to the template rmarkdown file (include
 #'   *.rmd extension)
 #' @return creates an rmarkdown file in an existing file directory
+#' @export
 make_template_report<-function(dir_path = "lab-notebook", file_name = "newfile.rmd")
 {
   path<-paste0(dir_path,"/", file_name)

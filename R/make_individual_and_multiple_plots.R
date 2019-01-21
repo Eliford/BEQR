@@ -10,6 +10,7 @@
 #' @param plotlist: a list of ggplot objects
 #' @param cols:   Number of columns in layout
 #' @param layout: A matrix specifying the layout. If present, 'cols' is ignored.
+#' @export
 multiplot <- function(..., plotlist=NULL, file, cols=cols, layout=NULL) {
   # cols=1 so that one column to have 2 plots per same subject. Eliford's choice
   # Make a list from the ... arguments and plotlist
@@ -62,6 +63,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=cols, layout=NULL) {
 #' @examples
 #' pt1<-insulinpk%>%filter(ID==1&PERIOD==1)
 #' plot_insulin(pt1, visit = "PERIOD",form = "TREATMENT", idv = "TAD")
+#' @export
 plot_insulin<-function(df, id="ID", visit = "PERIOD", form="TREATMENT", dv = list("CONC"="CONC"), idv="TIME", ylab = "Concentration (ng/mL)", xlab = "Time (hrs)"){
   my_theme<-function(){
     ggplot2::theme(
@@ -100,6 +102,7 @@ plot_insulin<-function(df, id="ID", visit = "PERIOD", form="TREATMENT", dv = lis
 #' @examples
 #' pt1<-pddata%>%filter(ID==1&PERIOD==1)
 #' plot_infusionrate(pt1, adj_insert_fig_height = 20)
+#' @export
 plot_infusionrate<-function(df, id="ID", idv="TAD", dv=list("GIR"="GIR", "GLUCOSE"="GLUCOSE", "CLAMP" = "GCLAMP"),
                    visit = "PERIOD", form="TREATMENT", ylab = "Glucose infusion rate (mL/h)", xlab = "Time (hrs)",
                    adj_insert_fig_height){
@@ -184,6 +187,7 @@ plot_infusionrate<-function(df, id="ID", idv="TAD", dv=list("GIR"="GIR", "GLUCOS
 #' get_individual_profiles(pddata%>%filter(ID%in%c(1,2,3)), id="ID", form = "TREATMENT", dv = list("GIR"="GIR", "GLUCOSE"="GLUCOSE", "CLAMP" = "GCLAMP"),
 #'                  idv = "TAD", period = "PERIOD", nplots = 6, ncol = 2, ylab = "Glucose infusion rate (mL/h)", xlab="Time (hrs)",
 #'                  plot_function = plot_infusionrate, adj_insert_fig_height = 20, response_to_plot = "GIR")
+#' @export
 get_individual_profiles<-function(df, id="ID", visit = "PERIOD", form = "TREATMENT", dv = list("CONC"="CONC"), idv = "TIME",
                            ylab = "Concentration (ng/mL)", xlab = "Time (hrs)", nplots = 4, ncol = 2,
                            response_to_plot = "INSULIN", plot_function,

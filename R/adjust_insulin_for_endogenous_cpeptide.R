@@ -20,7 +20,7 @@
 #' # Test the function using the \emph{wosmpkdata} dataframe.
 #' pt1<-wosmpkdata%>%filter(ID==1, PERIOD==1)
 #' pt1<-adjust_insulin(pt1)
-#'
+#' @export
 adjust_insulin<-function(df, idv="TAD", dosing_time = 0.01, dv="CONC", dv_type="TYPE", dv_type_values=list("INSULIN"="INSULIN", "CPEPTIDE"="CPEPTIDE"))
   {
   colnms  <- paste0(names(df)[!names(df)%in%c(dv, dv_type)], collapse = "+")

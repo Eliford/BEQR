@@ -8,7 +8,7 @@
 #' @return a contrast matrix
 #' @examples
 #' make_treatment_contrast(df=results_wide, fact_var = TREATMENT, contr_variable = "Mixtard 30/70")
-
+#' @export
 make_treatment_contrast<-function(df, fact_var, contr_variable)
 {
   enfact_var<-rlang::enexpr(fact_var)
@@ -44,7 +44,7 @@ make_treatment_contrast<-function(df, fact_var, contr_variable)
 #' fit<-get_abe_bylme(data=results_wide, treatments = TREATMENT, sequences = SEQUENCE, periods = PERIOD, idvar = ID, abe_param = cmax0_24, contr_variable = "Mixtard 30/70")
 #' abe_res<-fit$ABEresult
 #' modelfit<-fit$lmefit
-#'
+#' @export
 get_abe_bylme<-function(data, treatments, sequences, periods, idvar, abe_param, reference)
 {
   #Capture symbols
