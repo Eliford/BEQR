@@ -29,13 +29,9 @@ This vignette explains the BEQR functions using some examples.
 *Load required packages.*
 
 ```{r, results='hide'}
-libraries<-c("PKNCA", "BEQR")
+libraries<-c("PKNCA", "BEQR", "tidyverse")
 loadlibraries<-lapply(libraries, require, character.only=TRUE)
 rm(loadlibraries, libraries)
-```
-
-```{r, echo=FALSE, results='hide'}
-devtools::load_all()
 ```
 
 
