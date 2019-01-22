@@ -16,8 +16,8 @@ devtools::install_github("Eliford/BEQR")
 ## Introduction  
 
 The BEQR vignette provides examples on how to use different BEQR functions. 
-The vignette can be accessed by the `utils:vignette` function `vignette(topic="beqr_overview", package = "BEQR"). 
-Alternatively, `BEQR::make_examplesfile()` function will create an rmarkdown file with examples on how to use the different BEQR functions.
-Note that `make_examplefile(dir_path=?, file_name=?)` function requires an existing file directory where an example rmarkdown file will be saved.
+The vignette can be accessed by the `utils:vignette` function (`vignette(topic="beqr_overview", package = "BEQR")`). 
+Alternatively, `BEQR::make_examplesfile()` will create an rmarkdown file with examples on how to use different BEQR functions.
+Note that the `make_examplefile(dir_path=?, file_name=?)` function requires an existing file directory where an example rmarkdown file can be saved.
 
-The BEQR functions are documented. The documentation can be accessed through help("functionname") or ?functionname.
+The BEQR functions are documented. The documentation can be accessed through `help("functionname")` or `?functionname`.
