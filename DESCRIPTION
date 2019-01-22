@@ -1,6 +1,6 @@
 Package: BEQR
 Type: Package
-Title: ANALYSIS AND REPORTING OF INSULIN BIOEQUIVALENCE TRIALS
+Title: Bioequivalence Analysis and Reporting
 Version: 0.0.0.9000
 Author: Eliford N. Kitabi
 Maintainer: Eliford N. Kitabi <engaimisi@gmail.com>
