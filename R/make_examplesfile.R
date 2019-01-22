@@ -1,3 +1,12 @@
+#' Create an rmarkdown file with examples on how to use BEQR functions.
+#'
+#' This function has a template rmarkdown file. The file contains BEQR functions
+#' for plotting, NCA and ABE analyis.
+#' @param dir_path relative or absolute path to an existing file directory
+#' @param file_name a name to be given to the template rmarkdown file (include
+#'   *.rmd extension)
+#' @return creates an rmarkdown file in an existing file directory
+#' @export
 make_examplesfile<-function(dir_path = "notebook", file_name = "newfile.rmd")
 {
   path<-paste0(dir_path,"/", file_name)
